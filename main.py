@@ -24,5 +24,7 @@ for character in intialMessage:
     elif mode.lower() == "decrypt":
         shiftedPosition = initialPosition - key
 
-    print(shiftedPosition)
+    shiftedMessage = shiftedMessage +possibleCharacters[shiftedPosition]
+    
 # Print the shifted message
+print("Your " + mode.lower() + "ed message is: " + shiftedMessage)
