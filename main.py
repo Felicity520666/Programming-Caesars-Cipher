@@ -15,5 +15,14 @@ key = int(input("What is the key? Choose a number from 0 to 25. "))
 mode = input("Do you want to encrypt or decrypt? ")
 
 # Encrypt or decrypt the message
+for character in intialMessage:
+    initialPosition = possibleCharacters.find(character)
 
+    if mode.lower() == "encrypt":
+        shiftedPosition = initialPosition + key
+
+    elif mode.lower() == "decrypt":
+        shiftedPosition = initialPosition - key
+
+    print(shiftedPosition)
 # Print the shifted message
