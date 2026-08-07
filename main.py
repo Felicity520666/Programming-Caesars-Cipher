@@ -1,40 +1,84 @@
-# Global variables
-possibleCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-initialPosition = 0
-shiftedPosition = 0
-shiftedMessage = ""
+"""Encrypt and decrypt messages with a Caesar cipher."""
 
-# Run code
+ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+VALID_MODES = {"encrypt", "decrypt"}
 
-# Introduction
-print("Welcome! This program will encrypt or decrypt your secret message using the Caesar cipher. \n\nWhen creating your message, you may only chosse from the following characters: " + possibleChrarcters + "\n\nLet's get started!\n")
 
-# Receive user input
-initialMessage = input("What is your message? ")
-key = int(input("What is the key? Choose a number from 0 to 25. "))
-mode = input("Do you want to encrypt or decrypt? ")
+def caesar_cipher(message: str, key: int, mode: str) -> str:
+    """Return ``message`` encrypted or decrypted by ``key`` positions.
 
-# Encrypt or decrypt the message
-for character in intialMessage:
-    if character in possibleCharacters:
-        initialPosition = possibleCharacters.find(character)
+    Letter case is preserved, while spaces, punctuation, and numbers are left
+    unchanged.
 
-        if mode.lower() == "encrypt":
-            shiftedPosition = initialPosition + key
+    Raises:
+        ValueError: If the key or mode is invalid.
+    """
+    if not 0 <= key < len(ALPHABET):
+        raise ValueError("The key must be between 0 and 25.")
+    if mode not in VALID_MODES:
+        raise ValueError("The mode must be 'encrypt' or 'decrypt'.")
 
-        elif mode.lower() == "decrypt":
-            shiftedPosition = initialPosition - key
+    direction = 1 if mode == "encrypt" else -1
+    shifted_message: list[str] = []
 
-        if shiftedPosition >= len(possibleCharacters):
-            shiftedPosition = shiftedPosition - len(possibleCharacters)
+    for character in message:
+        uppercase_character = character.upper()
 
-        elif shiftedPosition < 0:
-            shiftedPosition = shiftedPosition + len(possibleCharacters)
+        if uppercase_character in ALPHABET:
+            initial_position = ALPHABET.index(uppercase_character)
+            shifted_position = (initial_position + direction * key) % len(ALPHABET)
+            shifted_character = ALPHABET[shifted_position]
 
-        shiftedMessage = shiftedMessage + possibleCharacters[shiftedPosition]
+            if character.islower():
+                shifted_character = shifted_character.lower()
 
-    else:
-        shiftedMessage = shiftedMessage + character
-    
-# Print the shifted message
-print("Your " + mode.lower() + "ed message is: " + shiftedMessage)
+            shifted_message.append(shifted_character)
+        else:
+            shifted_message.append(character)
+
+    return "".join(shifted_message)
+
+
+def get_key() -> int:
+    """Prompt until the user enters an integer from 0 to 25."""
+    while True:
+        try:
+            key = int(input("What is the key? Choose a number from 0 to 25: "))
+        except ValueError:
+            print("Please enter a whole number from 0 to 25.")
+            continue
+
+        if 0 <= key < len(ALPHABET):
+            return key
+
+        print("The key must be between 0 and 25.")
+
+
+def get_mode() -> str:
+    """Prompt until the user chooses encryption or decryption."""
+    while True:
+        mode = input("Do you want to encrypt or decrypt? ").strip().lower()
+        if mode in VALID_MODES:
+            return mode
+        print("Please enter 'encrypt' or 'decrypt'.")
+
+
+def main() -> None:
+    """Run the interactive Caesar cipher program."""
+    print(
+        "Welcome! This program encrypts or decrypts a message using a "
+        "Caesar cipher.\nLetters will be shifted; all other characters will "
+        "remain unchanged.\n"
+    )
+
+    message = input("What is your message? ")
+    key = get_key()
+    mode = get_mode()
+    result = caesar_cipher(message, key, mode)
+
+    action = "Encrypted" if mode == "encrypt" else "Decrypted"
+    print(f"{action} message: {result}")
+
+
+if __name__ == "__main__":
+    main()
