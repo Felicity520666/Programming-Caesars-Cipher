@@ -18,12 +18,6 @@ loops, conditionals, input validation, and string manipulation.
 - Validates the key and selected mode
 - Wraps shifts around the beginning and end of the alphabet
 
-## Requirements
-
-- Python 3.9 or newer
-
-No third-party packages are required.
-
 ## Running the program
 
 Open a terminal in the project directory and run:
@@ -33,15 +27,6 @@ python3 main.py
 ```
 
 Then enter your message, a key from 0 to 25, and either `encrypt` or `decrypt`.
-
-```text
-What is your message? Hello, World!
-What is the key? Choose a number from 0 to 25: 3
-Do you want to encrypt or decrypt? encrypt
-Encrypted message: Khoor, Zruog!
-```
-
-Decrypting `Khoor, Zruog!` with the same key returns `Hello, World!`.
 
 ## Running the tests
 
@@ -58,4 +43,4 @@ not be used to protect sensitive information.
 
 ## Creator
 
-Hi, my name is Felicity, and I am happy to share this project.
+Hi, my name is Felicity, and I am happy to share this project with you. Please feel free to share any friendly feedback or suggestions for improvement. Thank you! 
